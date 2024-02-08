@@ -88,7 +88,7 @@ void _onSpeechResult(result) async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reparaciones Domiciliarias'),
+        title: Text('TecnoExpress'),
       ),
       body: Center(
         child: Column(
