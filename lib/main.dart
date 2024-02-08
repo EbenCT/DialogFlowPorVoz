@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:dialog_flowtter/dialog_flowtter.dart';
+import 'ChatMessage.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
 
   bool _speechEnabled = false;
   String _wordsSpoken = "";
+  List<ChatMessage> _messages = [];
 
   @override
   void initState() {
@@ -70,6 +72,9 @@ class _HomePageState extends State<HomePage> {
 
     if (response.message != null) {
       String responseText = response.message!.text!.text!.first;
+      setState(() {
+        _messages.add(ChatMessage(responseText, false));
+      });
       _speakMessage(responseText);
     }
   }
@@ -85,37 +90,20 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('TecnoExpress'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                alignment: Alignment.center,
-                child: Text(
-                  _wordsSpoken,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: Container(
-        alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.only(bottom: 16),
-        child: FloatingActionButton(
-          onPressed: _startListening,
-          child: const Icon(
-            Icons.mic,
-            color: Colors.white,
+      body: Column(
+        children: [
+          Expanded(
+            child: MessageScreen(messages: _messages),
           ),
-          backgroundColor: Colors.red,
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _startListening,
+        child: const Icon(
+          Icons.mic,
+          color: Colors.white,
         ),
+        backgroundColor: Colors.red,
       ),
     );
   }
