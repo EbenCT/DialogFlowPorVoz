@@ -68,7 +68,7 @@ void _onSpeechResult(result) async {
   }
 
   // Espera un breve período de tiempo antes de enviar el mensaje
-  await Future.delayed(Duration(seconds: 1)); // Ajusta la duración según tus necesidades
+  //await Future.delayed(Duration(milliseconds: 200)); // Ajusta la duración según tus necesidades
 
   // Envía el mensaje a Dialogflow después de la pausa
   if (_wordsSpoken.isNotEmpty) {
