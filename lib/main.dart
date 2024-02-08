@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:dialog_flowtter/dialog_flowtter.dart';
+
 import 'ChatMessage.dart';
 
 void main() => runApp(MyApp());
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   bool _speechEnabled = false;
   String _wordsSpoken = "";
   List<ChatMessage> _messages = [];
+  String _previousWordsSpoken = ""; // Variable para almacenar el último mensaje hablado
 
   @override
   void initState() {
@@ -55,17 +57,31 @@ class _HomePageState extends State<HomePage> {
     await _speechToText.listen(localeId: 'es_ES', onResult: _onSpeechResult);
   }
 
-  void _onSpeechResult(result) async {
-    setState(() {
-      _wordsSpoken = result.recognizedWords;
-    });
+void _onSpeechResult(result) async {
+  setState(() {
+    _wordsSpoken = result.recognizedWords;
+  });
 
-    if (_wordsSpoken.isNotEmpty) {
-      _sendMessageToDialogFlow(_wordsSpoken);
-    }
+  if (!result.finalResult) {
+    // Si no es el resultado final, aún se está hablando, espera un poco más.
+    return;
   }
 
+  // Espera un breve período de tiempo antes de enviar el mensaje
+  await Future.delayed(Duration(seconds: 1)); // Ajusta la duración según tus necesidades
+
+  // Envía el mensaje a Dialogflow después de la pausa
+  if (_wordsSpoken.isNotEmpty) {
+    _sendMessageToDialogFlow(_wordsSpoken);
+  }
+}
+
+
   void _sendMessageToDialogFlow(String message) async {
+    setState(() {
+      _messages.add(ChatMessage(message, true)); // Agrega el mensaje hablado como un mensaje del usuario
+    });
+
     DetectIntentResponse response = await _dialogFlowtter.detectIntent(
       queryInput: QueryInput(text: TextInput(text: message)),
     );
@@ -73,7 +89,7 @@ class _HomePageState extends State<HomePage> {
     if (response.message != null) {
       String responseText = response.message!.text!.text!.first;
       setState(() {
-        _messages.add(ChatMessage(responseText, false));
+        _messages.add(ChatMessage(responseText, false)); // Agrega la respuesta de DialogFlow como un nuevo mensaje
       });
       _speakMessage(responseText);
     }
