@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'TecnoExpress',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
 
   bool _speechEnabled = false;
   String _wordsSpoken = "";
-  double _confidenceLevel = 0;
 
   @override
   void initState() {
@@ -51,23 +50,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _startListening() async {
-    await _speechToText.listen(onResult: _onSpeechResult);
+    await _speechToText.listen(localeId: 'es_ES', onResult: _onSpeechResult);
+  }
+
+  void _onSpeechResult(result) async {
     setState(() {
-      _confidenceLevel = 0;
+      _wordsSpoken = result.recognizedWords;
     });
+
+    if (_wordsSpoken.isNotEmpty) {
+      _sendMessageToDialogFlow(_wordsSpoken);
+    }
   }
-
-void _onSpeechResult(result) async {
-  setState(() {
-    _wordsSpoken = result.recognizedWords;
-    _confidenceLevel = result.confidence;
-  });
-
-  if (_confidenceLevel > 0) {
-    _sendMessageToDialogFlow(_wordsSpoken);
-  }
-}
-
 
   void _sendMessageToDialogFlow(String message) async {
     DetectIntentResponse response = await _dialogFlowtter.detectIntent(
@@ -81,6 +75,7 @@ void _onSpeechResult(result) async {
   }
 
   void _speakMessage(String message) async {
+    await _flutterTts.setLanguage("es-MX");
     await _flutterTts.speak(message);
   }
 
@@ -93,22 +88,13 @@ void _onSpeechResult(result) async {
       body: Center(
         child: Column(
           children: [
-            Container(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                _speechToText.isListening
-                    ? "Escuchando..."
-                    : _speechEnabled
-                        ? "Presiona el micrófono para hablar "
-                        : "Speech not available",
-                style: TextStyle(fontSize: 20.0),
-              ),
-            ),
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(16),
+                alignment: Alignment.center,
                 child: Text(
                   _wordsSpoken,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w300,
@@ -116,34 +102,20 @@ void _onSpeechResult(result) async {
                 ),
               ),
             ),
-            if (_speechToText.isNotListening && _confidenceLevel > 0)
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 100,
-                ),
-                child: Text(
-                  "Confidence: ${(_confidenceLevel * 100).toStringAsFixed(1)}%",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w200,
-                  ),
-                ),
-              )
           ],
         ),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: _startListening,
-            child: const Icon(
-              Icons.mic,
-              color: Colors.white,
-            ),
-            backgroundColor: Colors.red,
+      floatingActionButton: Container(
+        alignment: Alignment.bottomCenter,
+        margin: EdgeInsets.only(bottom: 16),
+        child: FloatingActionButton(
+          onPressed: _startListening,
+          child: const Icon(
+            Icons.mic,
+            color: Colors.white,
           ),
-        ],
+          backgroundColor: Colors.red,
+        ),
       ),
     );
   }
