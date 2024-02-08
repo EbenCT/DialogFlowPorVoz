@@ -1,0 +1,14 @@
+{
+  "type": "service_account",
+  "project_id": "dialogflow-ihc",
+  "private_key_id": "cfcf2be5f4758d87a89d238a6e02c96a6710b781",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCUn6MP3/vrNVLw\n6uIiBPjfR4d5wjyENVssnnjU4/Il5Ty2I64hpi6GmLa7HDvRxiHBEOyVeHJCxYrf\ndMSegoJhQKL3uIQqbyifZzRUBDO7bM55nGploDavlE6zZNHUvm4xVb9IPKMQwmdO\nTvDcMpHDay3aVonzkL51iATvawvEea/uEAkCiGYD19jeq0NB4rfhdNoZyTS08S1z\nsrgTz7ZSek4IUZLA//6lwwk2X2AULHsmRUUoTWWhecFq8AdhhVgQFQrR9Q23dTrt\nL5HmamVB8AxL54LWKMp3imV2Z9gj7/gE2XtWBnLI9aAedLM8AZq7ST0HWtq809F+\nnDqvlC/rAgMBAAECggEAP+4NJ7J6vBmzZDM881I9NVog4dSV0G7dGavPIRAuJHPf\nch+V8x53K+l7zK+f4aO++DvN8JufVq5/hpBFVUOhTrENiM5Dd7dZ+3tazHsEP65V\ngIUyVSWd8Fe0pMEM61zArJMMVUfUAs0Ev+//9lAAWFV9o0oPTAhqjMbmDJB4vtnL\nF4jdDjFhTiRgj59cBjiNiE51NtNSrVTlT18DKvYBY3Pu5xRJCCgfREwSp52AGOHH\nOqUEvr47ZoPDdMNlEgnCpR01bo9UtxjDitvYLZF1iJ8Wv6bOOCCcDLQIVT+2IpL9\nbfuU3JiXhneXDjwFNzPmiaujkZmcqvdGkmP8/FmmLQKBgQDP4wnaT9WOWt78B2jB\nhXcbzIEbQub0skMhxy/NxJQfa2yByKEYo4Ls+ZGM3bvhhcVYr+LxMPaiUrQWd8sT\n0IuH895hecJENW22HMguWZs1Fmr/UFT8ntqLKwa0n/pWg73QVYDVoDLtFhFRmRXS\nDxlcCYBRSnXy18MMMIkddAfzRQKBgQC3BVgm40dEnn2r6FG+VVJ9OJmXyceK5pLC\nnmaovpCuNHi/OMy2rpNRf+uEOO0XCaJYxJjdiZp6q6W3Xi8uygUnTaN6xjs64+xs\nlaxM3cZiFVjgg9n+VifWVkVy4kvbhEeRcqqcJXJailt+3+97hj7pmFe1oEmCEWiu\nAYedzKOxbwKBgDT3ifkfwi/FI29fi+dS1Cg3EOYbQ7ExAj3G/H0XCw5+VmUy8yjN\n8Hvkkpsrm8U4SjHwjogZi52MKOpYl1tzFToMfqqjVUX/vvZZmv+EQTFjhtuKYj0D\nVHeE/O5knGoSovhD8NF9Qbx6lOsPcCnXQwTaPuF3cVnwc3fVnfntKGFpAoGALo/E\ngng17GYp8K81BKguST86DBzAkDziv3KPCYUZx8f/pB5uLlexkP1rTIMzBjZkQBMc\nFNhqHaVHjqP+evfYYcxlt9lwviW4Q1O8tv2A9/kYWF4S+pqund/q4TRjOiCoGH/E\nmd8I/bHPXzLXeWSI4uLoBYQWz2lgaUxoVSP3zS8CgYEAjMyupb9rqZ4cVlSqMoWH\nEkREmIsNyplZ04zmHy7dcHslqdyT7ETUG9l/puBBHQlDbKaDLmoa9YB8E0y90/U/\nFMZ08b7jw4c2XUf6Okf12RK4ORw9J8LKmfFeVNKvh3bRNPNx452dGYPQSAPQ0ndy\nHxO/trau0LPLKx185Uf1CGY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "tecnoexpressbot@dialogflow-ihc.iam.gserviceaccount.com",
+  "client_id": "107406240465975877820",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tecnoexpressbot%40dialogflow-ihc.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
+
