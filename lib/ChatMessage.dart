@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 
+// Enum para los diferentes tipos de contenido
+enum ContentType {
+  Text,
+  Image,
+}
+
 class ChatMessage {
-  final String text;
+  final dynamic content;
+  final ContentType contentType;
   final bool isUserMessage;
 
-  ChatMessage(this.text, this.isUserMessage);
+  ChatMessage(this.content, this.contentType, this.isUserMessage);
 }
 
 class MessageScreen extends StatelessWidget {
@@ -32,16 +39,30 @@ class MessageScreen extends StatelessWidget {
                   : Colors.grey.shade900,
             ),
             constraints: BoxConstraints(maxWidth: w * 2 / 3),
-            child: Text(
-              messages[index].text,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              ),
-            ),
+            child: _buildContent(messages[index]),
           ),
         );
       },
     );
+  }
+
+  // Método para construir el contenido del mensaje
+  Widget _buildContent(ChatMessage message) {
+    if (message.contentType == ContentType.Image) {
+      // Si el contenido es una imagen, mostrarla
+      return Image.network(
+        message.content,
+        fit: BoxFit.cover, // Ajusta la imagen al contenedor
+      );
+    } else {
+      // Si el contenido es texto, mostrarlo
+      return Text(
+        message.content,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+        ),
+      );
+    }
   }
 }

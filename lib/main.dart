@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   bool _speechEnabled = false;
   String _wordsSpoken = "";
   List<ChatMessage> _messages = [];
-  String _previousWordsSpoken = ""; // Variable para almacenar el último mensaje hablado
+
 
   @override
   void initState() {
@@ -77,23 +77,68 @@ void _onSpeechResult(result) async {
 }
 
 
-  void _sendMessageToDialogFlow(String message) async {
-    setState(() {
-      _messages.add(ChatMessage(message, true)); // Agrega el mensaje hablado como un mensaje del usuario
-    });
+void _sendMessageToDialogFlow(String message) async {
+  setState(() {
+    _messages.add(ChatMessage(message, ContentType.Text, true)); // Agrega el mensaje hablado como un mensaje del usuario
+  });
 
-    DetectIntentResponse response = await _dialogFlowtter.detectIntent(
-      queryInput: QueryInput(text: TextInput(text: message)),
-    );
+  DetectIntentResponse response = await _dialogFlowtter.detectIntent(
+    queryInput: QueryInput(text: TextInput(text: message)),
+  );
 
-    if (response.message != null) {
+  // Imprimir la respuesta JSON recibida de Dialogflow
+  print(response.message?.payload);
+
+  if (response.message != null) {
+    // Si la respuesta contiene un mensaje de texto, habla el mensaje
+    if (response.message!.text != null) {
       String responseText = response.message!.text!.text!.first;
+      _speakMessage(responseText); // Reproduce el texto en voz
       setState(() {
-        _messages.add(ChatMessage(responseText, false)); // Agrega la respuesta de DialogFlow como un nuevo mensaje
+        _messages.add(ChatMessage(responseText, ContentType.Text, false)); // Agrega la respuesta de DialogFlow como un nuevo mensaje
       });
-      _speakMessage(responseText);
+    }
+
+    // Si la respuesta contiene un payload (por ejemplo, un mensaje rico), muestra el contenido
+    if (response.message!.payload != null) {
+      List<dynamic> richContent = response.message!.payload!['richContent'];
+
+      // Itera sobre el contenido rico para mostrar los productos
+      richContent.forEach((content) {
+        // Verifica si el contenido contiene una imagen, un título y un precio
+        if (content is List<dynamic> && content.length >= 3) {
+          // Obtén la URL de la imagen
+          String imageUrl = content[0]['rawUrl'];
+          // Obtén el título y el precio del producto
+          String productName = content[1]['title'];
+          String productPrice = content[1]['subtitle'];
+
+          // Construye el mensaje combinando el nombre y el precio con un salto de línea
+          String productMessage = '$productName\n$productPrice.\n\nPuede decir "comprar" para añadir al carrito, o decir "siguiente/anterior" para ver mas productos';
+
+          // Muestra la imagen y el mensaje combinado en un solo mensaje
+          setState(() {
+            _messages.add(ChatMessage(imageUrl, ContentType.Image, false)); // Muestra la imagen
+            //_messages.add(ChatMessage(productMessage, ContentType.Text, false)); // Muestra el nombre y el precio del producto
+          });
+
+          // Procesa el mensaje combinado
+          _processDialogFlowResponse(productMessage);
+        }
+      });
     }
   }
+}
+
+
+
+void _processDialogFlowResponse(String responseText) {
+  setState(() {
+    _messages.add(ChatMessage(responseText, ContentType.Text, false));
+  });
+  _speakMessage(responseText);
+}
+
 
   void _speakMessage(String message) async {
     await _flutterTts.setLanguage("es-MX");
